@@ -1,6 +1,7 @@
 # [WIP] API factory generator
 
 - Uses fetch
+- Uses ajv for schema validation
 - Sane defaults
 - Sends token if provided
 - Each route can have specific options
@@ -31,8 +32,12 @@
             method: 'POST'
           },
           schema: {
-            email: {
-              type: 'string'
+            type: 'object',
+            required: ['email'],
+            properties: {
+              email: {
+                type: 'string'
+              }
             }
           }
         }
@@ -48,11 +53,11 @@
       locate: {
         path: '/locate',
         schema: {
-          longitude: {
-            type: 'number'
-          },
-          latitude: {
-            type: 'number'
+          type: 'object',
+          required: ['longitude', 'latitude'],
+          properties: {
+            longitude: Longitude,
+            latitude: Latitude
           }
         }
       }
