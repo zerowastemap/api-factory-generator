@@ -10,16 +10,17 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.3",
+    "@zerowastemap/schemas": "^3.2.0",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
     "tape": "^4.9.2",
     "tape-run": "^5.0.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.2.5",
+    "ajv": "^6.6.2",
     "isobject": "^3.0.1",
-    "nanoassert": "^1.1.0",
     "query-string": "^6.2.0"
   }
 }

@@ -1,8 +1,9 @@
 /* global Headers, fetch */
 
-const assert = require('nanoassert')
 const queryString = require('query-string')
 const isObject = require('isobject')
+const Ajv = require('ajv')
+const ajv = new Ajv()
 
 const request = (path = '/', options = {}) => {
   const {
@@ -68,36 +69,44 @@ const request = (path = '/', options = {}) => {
   ])
 }
 
-/*
- * Simple validator to validate schema against some data
- */
-
-const validator = (schema) => {
-  return (data) => {
-    for (let [key, value] of Object.entries(schema)) {
-      return assert.equal(typeof data[key], value.type)
-    }
-  }
-}
-
-function computeRoutes (routes, options = {}) {
+const computeRoutes = (routes, options = {}) => {
   const obj = {}
+
   for (let [key, route] of Object.entries(routes)) {
     if (route.path) {
-      const schema = route.schema || {}
-      const params = Object.keys(schema)
-      const validate = validator(schema)
+      let schema
+      let params
+      let validate
+      let multipart
+
+      if (route.options) {
+        multipart = route.options.multipart
+      }
+
+      if (route.schema) {
+        schema = route.schema || {}
+        params = Object.keys(schema.properties)
+        validate = ajv.compile(schema)
+      }
 
       obj[key] = (...args) => {
         let data = {}
-        if (isObject(args[0])) {
+        if (isObject(args[0] || multipart === true)) {
           data = args[0]
         } else {
-          params.forEach((key, index) => {
-            data[key] = args[index]
-          })
+          if (params) {
+            params.forEach((key, index) => {
+              data[key] = args[index]
+            })
+          }
         }
-        validate(data)
+        if (validate) {
+          let valid = validate(data)
+          if (!valid) {
+            let errors = validate.errors
+            throw errors
+          }
+        }
         return request(route.path, Object.assign({}, { data }, options, route.options))
       }
     } else {
