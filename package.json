@@ -2,17 +2,21 @@
   "name": "@zerowastemap/api-factory-generator",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib",
   "scripts": {
+    "build": "babel src -d lib",
     "test": "browserify -t [babelify] test/index.js | tape-run --port 5000 --keep-open | tap-format-spec"
   },
   "author": "Augustin Godiscal <hello@auggod.tech>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.2.3",
     "@zerowastemap/schemas": "^3.2.0",
+    "babel-plugin-add-module-exports": "^1.0.0",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
     "tape": "^4.9.2",

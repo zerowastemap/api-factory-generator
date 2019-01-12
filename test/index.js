@@ -2,7 +2,7 @@ import '@babel/polyfill'
 
 import test from 'tape'
 import { Longitude, Latitude } from '@zerowastemap/schemas/location'
-import factoryGenerator from '../'
+import factoryGenerator from '../src'
 
 const api = factoryGenerator(
   {

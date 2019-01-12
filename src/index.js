@@ -1,11 +1,14 @@
 /* global Headers, fetch */
 
-const queryString = require('query-string')
-const isObject = require('isobject')
-const Ajv = require('ajv')
-const ajv = new Ajv()
+import queryString from 'query-string'
+import isObject from 'isobject'
+import Ajv from 'ajv'
 
-const request = (path = '/', options = {}) => {
+const ajv = new Ajv({
+  allErrors: true
+})
+
+export const request = (path = '/', options = {}) => {
   const {
     auth = false,
     credentials = 'omit',
@@ -69,7 +72,7 @@ const request = (path = '/', options = {}) => {
   ])
 }
 
-const computeRoutes = (routes, options = {}) => {
+export const computeRoutes = (routes, options = {}) => {
   const obj = {}
 
   for (let [key, route] of Object.entries(routes)) {
@@ -116,7 +119,7 @@ const computeRoutes = (routes, options = {}) => {
   return obj
 }
 
-module.exports = (routes, options) => {
+export const apiFactoryGenerator = (routes, options) => {
   const api = Object.create(
     computeRoutes(routes, options)
   )
@@ -125,3 +128,5 @@ module.exports = (routes, options) => {
 
   return api
 }
+
+export default apiFactoryGenerator
