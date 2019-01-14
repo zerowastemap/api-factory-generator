@@ -51,7 +51,9 @@ export const request = (path = '/', options = {}) => {
 
   headers.append('Accept-Language', lang)
 
-  if (!multipart) {
+  if (multipart) {
+    body = data.formData
+  } else {
     headers.append('Content-Type', 'application/json')
     body = JSON.stringify(body)
   }
