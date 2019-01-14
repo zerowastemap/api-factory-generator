@@ -11,7 +11,6 @@ const ajv = new Ajv({
 export const request = (path = '/', options = {}) => {
   const {
     auth = false,
-    credentials = 'omit',
     data,
     domain,
     lang = 'fr',
@@ -23,6 +22,8 @@ export const request = (path = '/', options = {}) => {
     timeout = 15000,
     token
   } = options
+
+  const credentials = auth ? 'include' : 'omit'
 
   const stringified = queryString.stringify(method === 'GET' ? data : {})
 
