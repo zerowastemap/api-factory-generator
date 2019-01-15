@@ -13,17 +13,16 @@ export const request = (path = '/', options = {}) => {
     auth = false,
     data,
     domain,
+    credentials = 'include',
     lang = 'fr',
     method = 'GET',
-    mode = 'no-cors',
+    mode = 'cors',
     multipart,
     prefix,
     scheme,
     timeout = 15000,
     token
   } = options
-
-  const credentials = auth ? 'include' : 'omit'
 
   const stringified = queryString.stringify(method === 'GET' ? data : {})
 
